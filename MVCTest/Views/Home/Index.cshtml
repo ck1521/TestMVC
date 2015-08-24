@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <ul class="nav navbar-nav">
+        <li>
+           <a href="#">WHAT</a>
+        </li>
+        <li>
+           <a href="#">This is weird</a>
+        </li>
+        <li>
+           @Html.ActionLink("Should there be a link?", "Index", "Home");
+        </li>
+    </ul>
+</div>

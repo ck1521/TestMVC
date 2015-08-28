@@ -7,14 +7,22 @@ using MVCTest.Models;
 
 namespace MVCTest.DAL
 {
-    public class BookInitializer:DropCreateDatabaseIfModelChanges<BookContext>
+    public class BookInitializer: DropCreateDatabaseIfModelChanges<BookContext>
     {
         protected override void Seed(BookContext context)
         {
             var author = new Author
             {
-                Name = "Tester"
+                Name = "Tester",
+                Publisher = "CSDN"
             };
+
+            var author2 = new Author
+            {
+                Name = "Bluffing",
+                Publisher = "Stackoverflow"
+            };
+
             var books = new List<Book>
             {
                 new Book
@@ -26,6 +34,11 @@ namespace MVCTest.DAL
                 {
                     Author = author,
                     Title= "PicBook"
+                },
+                new Book
+                {
+                    Author = author2,
+                    Title = "NewBook"
                 }
             };
             books.ForEach(b => context.Books.Add(b));

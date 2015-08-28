@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MVCTest.Models.Author>
+@using MVCTest.Models;
+@using MVCTest.Extensions
+
+@{
+    ViewBag.Title = "Authors";
+    var queryOptions = (QueryOptions)ViewBag.QueryOptions;
+}
+
+<h2>Authors</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>@Html.BuildSortLink("Name","Index","Name",queryOptions)</th>
+        <th>@Html.BuildSortLink("Publisher","Index","Publiser",queryOptions)</th>
+        <th>Actions</th>
+    </tr>
+    <tbody data-bind="foreach:authors">
+        <tr>
+            <td data-bind="text:Name"></td>
+            <td data-bind="text:Publisher"></td>
+            <td>
+                <a data-bind="attr: {href: '@Url.Action("Details")/' + Id}"
+                    class="btn btn-info">Details</a>
+                <a data-bind="attr: {href: '@Url.Action("Edit")/' + Id}"
+                    class="btn btn-info">Edit</a>
+                <a data-bind="click:$parent.AjaxDelete.bind($root,$data.Id)"
+                    class="btn btn-info">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<form hidden="hidden">@Html.AntiForgeryToken()</form>
+
+@section Scripts
+{
+    <script>
+        function ViewModel(authors)
+        {
+            var self = this;
+            self.authors = authors;
+        };
+        var viewModel = new ViewModel(@Html.HtmlConvertToJson(Model));
+        viewModel.AjaxDelete =  function AjaxDelete(id)
+        {
+            var token = $('input[name=__RequestVerificationToken]').val();
+            $.post('/Authors/Delete',
+                {
+                    id:id,
+                    '__RequestVerificationToken':token,
+                },
+                function(data)
+                {
+                    alert(data);
+                });
+        }
+
+        ko.applyBindings(viewModel);
+    </script>
+    
+    <script>
+
+    </script>
+}

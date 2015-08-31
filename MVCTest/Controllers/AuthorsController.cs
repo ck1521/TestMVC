@@ -18,9 +18,32 @@ namespace MVCTest.Controllers
         //  GET: /Authors/
         public ActionResult Index([Form] QueryOptions qo)
         {
-            var authors = db.Authors.OrderBy(qo.Sort);
+            var start = (qo.CurrentPage - 1) * qo.PageSize;
+            var authors = db.Authors.
+                OrderBy(qo.Sort).
+                Skip(start).
+                Take(qo.PageSize);
+
+            qo.TotalPages = (int)Math.Ceiling((double)db.Authors.Count() / qo.PageSize);
+
             ViewBag.QueryOptions = qo;
-            return View(db.Authors.ToList());
+            return View(authors.ToList());
+        }
+
+        //  GET: /Authors/Edit/id
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Author author = db.Authors.Find(id);
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            return View("Form", author);
         }
 
         //  GET: /Authors/Detail/id
@@ -43,7 +66,7 @@ namespace MVCTest.Controllers
         // GET: /Authors/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Form", new Author());
         }
 
         [HttpPost]
@@ -60,9 +83,25 @@ namespace MVCTest.Controllers
             return View(author);
         }
 
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Author author = db.Authors.Find(id);
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            return View(author);
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             Author author = db.Authors.Find(id);
             db.Authors.Remove(author);

@@ -38,7 +38,6 @@ namespace MVCTest.Extensions
                     ));
         }
 
-
         private static string BuildSortIcon(bool sameField, QueryOptions qo)
         {
             StringBuilder iconStr = new StringBuilder("sort");
@@ -53,6 +52,62 @@ namespace MVCTest.Extensions
             return string.Format("<span class=\"{0} {1}{2}\"></span>", "glyphicon", "glyphicon-", iconStr);
         }
 
+        public static MvcHtmlString BuildPreNextLinks(this HtmlHelper helper, QueryOptions qo, string actionName)
+        {
+            var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
+            return new MvcHtmlString(string.Format(
+                "<nav>" +
+                "   <ul class=\"pager\">" +
+                "       <li class=\"previous {0}\">{1}</li>" +
+                "       <li class=\"next {2}\">{3}</li>" +
+                "   </ul>" +
+                "</nav>",
+                CheckLinkEnable(qo, true),
+                BuildPreLink(urlHelper, qo, actionName),
+                CheckLinkEnable(qo, false),
+                BuildNextLink(urlHelper, qo, actionName)
+                ));
+       }
 
+        private static string CheckLinkEnable(QueryOptions qo, bool preOrNext)
+        {
+            bool disabled = false;
+            if (preOrNext)
+            {
+                disabled = (qo.CurrentPage == 1);
+            }
+            else
+            {
+                disabled = (qo.CurrentPage == qo.TotalPages);
+            }
+
+            return disabled ? "disabled" : string.Empty;
+        }
+
+        private static string BuildPreLink(UrlHelper helper, QueryOptions qo, string actionName)
+        {
+            return string.Format(
+                "<a href=\"{0}\"><span aria-hidden=\"true\">&larr;</span> Previous</a>",
+                helper.Action(actionName, new
+                {
+                    SortOrder = qo.SortOrder,
+                    SortField = qo.SortField,
+                    CurrentPage = qo.CurrentPage - 1,
+                    PageSize = qo.PageSize
+                }));
+        }
+
+        private static string BuildNextLink(UrlHelper helper, QueryOptions qo, string actionName)
+        {
+            return string.Format(
+                "<a href=\"{0}\">Next <span aria-hidden=\"true\">&rarr;</span></a>",
+                helper.Action(actionName, new
+                {
+                    SortOrder = qo.SortOrder,
+                    SortField = qo.SortField,
+                    CurrentPage = qo.CurrentPage + 1,
+                    PageSize = qo.PageSize
+                }));
+        }
     }
 }

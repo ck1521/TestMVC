@@ -1,13 +1,13 @@
 ﻿@model MVCTest.Models.Author
-
+@using MVCTest.Extensions;
 @{
-    ViewBag.Title = "Create";
+    var isCreating = Model.Id == 0;
+    ViewBag.Title = isCreating ? "Create" : "Edit";
     
 }
 <div data-bind="visible: !saveCompleted()">
-    <h2>Create</h2>
-
     <div class="col-md-offset-2 col-md-6">
+        <h2>@ViewBag.Title</h2>
         <form action="/Authors/Create" method="post" novalidate="novalidate" data-bind="submit: validateAndSave">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
@@ -31,7 +31,10 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" class="btn btn-default" value="Create" data-bind="visible: !sending()" />
+                    <input type="submit" class="btn btn-default" value="
+                        @if (isCreating) { @Html.Raw("Create"); }
+                        else { @Html.Raw("Update"); }"
+                         data-bind="visible: !sending()" />
                 </div>
             </fieldset>
         </form>
@@ -45,7 +48,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("/Scripts/ViewModel/AuthorViewModel.js")
     <script>
-        var viewModel = new AuthorViewModel();
+        var viewModel = new AuthorViewModel(@Html.HtmlConvertToJson(Model));
         ko.applyBindings(viewModel);
 
         $(':text').addClass('form-control');

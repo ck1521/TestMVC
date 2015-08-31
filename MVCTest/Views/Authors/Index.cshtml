@@ -7,62 +7,48 @@
     var queryOptions = (QueryOptions)ViewBag.QueryOptions;
 }
 
-<h2>Authors</h2>
 
+<div class="body-content col-md-8 col-md-offset-2">
+
+    <h2>Authors</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>@Html.BuildSortLink("Name","Index","Name",queryOptions)</th>
-        <th>@Html.BuildSortLink("Publisher","Index","Publiser",queryOptions)</th>
-        <th>Actions</th>
-    </tr>
-    <tbody data-bind="foreach:authors">
-        <tr>
-            <td data-bind="text:Name"></td>
-            <td data-bind="text:Publisher"></td>
-            <td>
-                <a data-bind="attr: {href: '@Url.Action("Details")/' + Id}"
-                    class="btn btn-info">Details</a>
-                <a data-bind="attr: {href: '@Url.Action("Edit")/' + Id}"
-                    class="btn btn-info">Edit</a>
-                <a data-bind="click:$parent.AjaxDelete.bind($root,$data.Id)"
-                    class="btn btn-info">Delete</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
 
-<form hidden="hidden">@Html.AntiForgeryToken()</form>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>@Html.BuildSortLink("Name", "Index", "name", queryOptions)</th>
+            <th>@Html.BuildSortLink("Publisher", "Index", "publiser", queryOptions)</th>
+            <th>Actions</th>
+        </tr>
+        <tbody data-bind="foreach:authors">
+            <tr>
+                <td data-bind="text:name"></td>
+                <td data-bind="text:publisher"></td>
+                <td>
+                    <a data-bind="attr: {href: '@Url.Action("Details")/' + id}"
+                    class="btn btn-info">Details</a>
+                    <a data-bind="attr: {href: '@Url.Action("Edit")/' + id}"
+                    class="btn btn-info">Edit</a>
+                    @*<a data-bind="click:$parent.AjaxDelete.bind($root,$data.id)"
+                        class="btn btn-info">Delete</a>*@
+                    <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("Delete")/' + id}"
+                        class="btn btn-info">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    @Html.BuildPreNextLinks(queryOptions, "Index")
+    <form hidden="hidden">@Html.AntiForgeryToken()</form>
+
+</div>
 
 @section Scripts
 {
+    @Scripts.Render("/Scripts/ViewModel/AuthorIndexViewModel.js")
     <script>
-        function ViewModel(authors)
-        {
-            var self = this;
-            self.authors = authors;
-        };
-        var viewModel = new ViewModel(@Html.HtmlConvertToJson(Model));
-        viewModel.AjaxDelete =  function AjaxDelete(id)
-        {
-            var token = $('input[name=__RequestVerificationToken]').val();
-            $.post('/Authors/Delete',
-                {
-                    id:id,
-                    '__RequestVerificationToken':token,
-                },
-                function(data)
-                {
-                    alert(data);
-                });
-        }
-
+        var viewModel = new AuthorIndexViewModel(@Html.HtmlConvertToJson(Model));
         ko.applyBindings(viewModel);
-    </script>
-    
-    <script>
-
     </script>
 }

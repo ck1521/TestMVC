@@ -1,13 +1,16 @@
-﻿function AuthorViewModel() {
+﻿function AuthorViewModel(author) {
     var self = this;
 
     self.saveCompleted = ko.observable(false);
     self.sending = ko.observable(false);
 
+    self.isCreating = (author.id == 0);
+
     self.author =
     {
-        name: ko.observable(),
-        publisher: ko.observable(),
+        id:author.id,
+        name: ko.observable(author.name),
+        publisher: ko.observable(author.publisher),
     };
 
     self.validateAndSave = function (form) {
@@ -17,7 +20,7 @@
         self.sending(true);
         self.author.__RequestVerificationToken = form[0].value;
         $.ajax({
-            url: 'Create',
+            url: (self.isCreating) ? 'Create' : 'Edit',
             method: 'POST',
             contentType: 'application/x-www-form-urlencoded',
             data: ko.toJS(self.author)
@@ -33,6 +36,14 @@
         $('.body-content').prepend(
             '<div class="alert alert-success"><strong>Success!</strong>The author has been saved.</div>'
             );
+        
+        if (self.isCreating)
+        {
+            setTimeout(function () {
+                location.href = '../';
+            }, 1000);
+            
+        }
         //setTimeout(function () { location.href = './'; }, 1000);
     };
 

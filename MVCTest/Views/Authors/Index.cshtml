@@ -11,37 +11,46 @@
 <div class="body-content col-md-8 col-md-offset-2">
 
     <h2>Authors</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-    <table class="table table-bordered table-striped">
-        <tr>
-            <th>@Html.BuildSortLink("Name", "Index", "name", queryOptions)</th>
-            <th>@Html.BuildSortLink("Publisher", "Index", "publiser", queryOptions)</th>
-            <th>Actions</th>
-        </tr>
-        <tbody data-bind="foreach:authors">
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <div style="display: none" data-bind="visible: authors.length > 0">
+        <table class="table table-bordered table-striped">
             <tr>
-                <td data-bind="text:name"></td>
-                <td data-bind="text:publisher"></td>
-                <td>
-                    <a data-bind="attr: {href: '@Url.Action("Details")/' + id}"
-                    class="btn btn-info">Details</a>
-                    <a data-bind="attr: {href: '@Url.Action("Edit")/' + id}"
-                    class="btn btn-info">Edit</a>
-                    @*<a data-bind="click:$parent.AjaxDelete.bind($root,$data.id)"
-                        class="btn btn-info">Delete</a>*@
-                    <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("Delete")/' + id}"
-                        class="btn btn-info">Delete</a>
-                </td>
+                <th>@Html.BuildSortLink("Name", "Index", "name", queryOptions)</th>
+                <th>@Html.BuildSortLink("Publisher", "Index", "publiser", queryOptions)</th>
+                <th>Actions</th>
             </tr>
-        </tbody>
-    </table>
+            <tbody data-bind="foreach:authors">
+                <tr>
+                    <td data-bind="text:name"></td>
+                    <td data-bind="text:publisher"></td>
+                    <td>
+                        <a data-bind="attr: {href: '@Url.Action("Details")/' + id}"
+                    class="btn btn-info">Details</a>
+                        <a data-bind="attr: {href: '@Url.Action("Edit")/' + id}"
+                    class="btn btn-info">Edit</a>
+                        @*<a data-bind="click:$parent.AjaxDelete.bind($root,$data.id)"
+                        class="btn btn-info">Delete</a>*@
+                        <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("Delete")/' + id}"
+                        class="btn btn-info">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    @Html.BuildPreNextLinks(queryOptions, "Index")
-    <form hidden="hidden">@Html.AntiForgeryToken()</form>
-
+        @Html.BuildPreNextLinks(queryOptions, "Index")
+        <form hidden="hidden">@Html.AntiForgeryToken()</form>
+    </div>
+    <div style="display:none" data-bind="visible: authors.length == 0"
+        class="alert alert-warning alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        There are no authors to display.
+            Click @Html.ActionLink("here","Create") to create one.
+    </div>
 </div>
 
 @section Scripts

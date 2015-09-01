@@ -1,7 +1,6 @@
-﻿@model IEnumerable<MVCTest.Models.Author>
-@using MVCTest.Models;
+﻿@model IEnumerable<MVCTest.ViewModels.AuthorViewModel>
 @using MVCTest.Extensions
-
+@using MVCTest.ViewModels
 @{
     ViewBag.Title = "Authors";
     var queryOptions = (QueryOptions)ViewBag.QueryOptions;

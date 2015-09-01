@@ -1,7 +1,9 @@
 ﻿using MVCTest.DAL;
 using MVCTest.Models;
+using MVCTest.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
@@ -27,23 +29,31 @@ namespace MVCTest.Controllers
             qo.TotalPages = (int)Math.Ceiling((double)db.Authors.Count() / qo.PageSize);
 
             ViewBag.QueryOptions = qo;
-            return View(authors.ToList());
+
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+
+            return View(AutoMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(authors.ToList()));
         }
 
-        //  GET: /Authors/Edit/id
-        public ActionResult Edit(int? id)
+        //  GET: /Authors/Create
+        public ActionResult Create()
         {
-            if (id == null)
+            return View("Form", new AuthorViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(AuthorViewModel author)
+        {
+            if (ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                AutoMapper.Mapper.CreateMap<AuthorViewModel, Author>();
+                db.Authors.Add(AutoMapper.Mapper.Map<AuthorViewModel, Author>(author));
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
-            Author author = db.Authors.Find(id);
-            if (author == null)
-            {
-                return HttpNotFound();
-            }
-            return View("Form", author);
+            return View(author);
         }
 
         //  GET: /Authors/Detail/id
@@ -59,30 +69,44 @@ namespace MVCTest.Controllers
             {
                 return HttpNotFound();
             }
-            return View(author);
+
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+            return View(AutoMapper.Mapper.Map<Author, AuthorViewModel>(author));
         }
 
-
-        // GET: /Authors/Create
-        public ActionResult Create()
+        //  GET: /Authors/Edit/id
+        public ActionResult Edit(int? id)
         {
-            return View("Form", new Author());
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Author author = db.Authors.Find(id);
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+            return View("Form", AutoMapper.Mapper.Map<Author, AuthorViewModel>(author));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Author author)
+        public ActionResult Edit(AuthorViewModel author)
         {
             if (ModelState.IsValid)
             {
-                db.Authors.Add(author);
+                AutoMapper.Mapper.CreateMap<AuthorViewModel, Author>();
+                db.Entry(AutoMapper.Mapper.Map<AuthorViewModel, Author>(author)).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(author);
+            
+            return View("Form", author);
         }
 
+        //  GET: /Authors/Delete/id
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -95,9 +119,10 @@ namespace MVCTest.Controllers
             {
                 return HttpNotFound();
             }
-            return View(author);
-        }
 
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+            return View(AutoMapper.Mapper.Map<Author, AuthorViewModel>(author));
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

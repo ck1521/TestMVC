@@ -37,14 +37,15 @@
             '<div class="alert alert-success"><strong>Success!</strong>The author has been saved.</div>'
             );
         
-        if (self.isCreating)
-        {
+        if (self.isCreating) {
             setTimeout(function () {
                 location.href = '../';
             }, 1000);
-            
+
         }
-        //setTimeout(function () { location.href = './'; }, 1000);
+        else {
+            setTimeout(function () { location.href = './'; }, 1000);
+        }
     };
 
     self.saveError = function () {

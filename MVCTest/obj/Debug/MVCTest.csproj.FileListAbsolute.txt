@@ -63,3 +63,5 @@ C:\Practice\TestMVC\MVCTest\bin\System.Web.WebPages.Deployment.xml
 C:\Practice\TestMVC\MVCTest\bin\System.Web.WebPages.Razor.xml
 C:\Practice\TestMVC\MVCTest\obj\Debug\MVCTest.pdb
 C:\Practice\TestMVC\MVCTest\bin\System.Linq.Dynamic.dll
+C:\Practice\TestMVC\MVCTest\bin\AutoMapper.dll
+C:\Practice\TestMVC\MVCTest\bin\AutoMapper.xml

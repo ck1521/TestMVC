@@ -6,5 +6,5 @@
 # Directories #
 ###############
 packages/**
-bin/**
-obj/**
+MVCTest/bin/**
+MVCTest/obj/**

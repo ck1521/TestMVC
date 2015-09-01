@@ -1,1 +1,10 @@
+
+# File Types #
+##############
 *.suo
+
+# Directories #
+###############
+packages/**
+# bin/**
+# obj/**

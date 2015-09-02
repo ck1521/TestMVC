@@ -4,7 +4,7 @@
     self.saveCompleted = ko.observable(false);
     self.sending = ko.observable(false);
 
-    self.isCreating = (author.id == 0);
+    self.isCreating = (author.id === 0);
 
     self.author =
     {

@@ -13,9 +13,9 @@
     self.updateResultList = function (resultList) {
         self.queryOptions.currentPage(resultList.queryOptions.currentPage);
         self.queryOptions.totalPages(resultList.queryOptions.totalPages);
-        self.queryOptions.pageSize(result.queryOptions.pageSize);
+        self.queryOptions.pageSize(resultList.queryOptions.pageSize);
         self.queryOptions.sortField(resultList.queryOptions.sortField);
-        self.queryOptions.sortOrder(result.queryOptions.sortOrder);
+        self.queryOptions.sortOrder(resultList.queryOptions.sortOrder);
 
         self.entities(resultList.results);
     };
@@ -24,7 +24,7 @@
 
     self.sortEntitiesBy = function (data, event) {
         var softField = $(event.target).data('sortField');
-        if (softField == self.queryOptions.sortField() && (self.queryOptions.sortOrder() == "ASC")) {
+        if (softField === self.queryOptions.sortField() && (self.queryOptions.sortOrder() === "ASC")) {
             self.queryOptions.sortOrder("DESC");
         }
         else {
@@ -42,7 +42,7 @@
         }
     };
 
-    self.previousPage = function (data, event) {
+    self.nextPage = function (data, event) {
         if (self.queryOptions.currentPage() < self.queryOptions.totalPages()) {
             self.queryOptions.currentPage(self.queryOptions.currentPage() + 1);
             self.fetchEntities(event);
@@ -54,7 +54,7 @@
         url += "?sortField=" + self.queryOptions.sortField();
         url += "&sortOrder=" + self.queryOptions.sortOrder();
         url += "&currentPage=" + self.queryOptions.currentPage();
-        url += "&pageSize=" + sel.queryOptions.page();
+        url += "&pageSize=" + self.queryOptions.pageSize();
 
         $.ajax({
             dataType: 'json',
@@ -66,13 +66,13 @@
         });
     };
 
-    self.buildSoftIcon = function (sortField) {
+    self.buildSortIcon = function (sortField) {
         return ko.pureComputed(function () {
             var sortIcon = 'sort';
-            if (self.queryOptions.sortField == sortField) {
+            if (self.queryOptions.sortField === sortField) {
                 sortIcon += '-by-alphabet';
             }
-            if (self.queryOptions.sortOrder() == "DESC") {
+            if (self.queryOptions.sortOrder() === "DESC") {
                 sortIcon += '-alt';
             }
 
@@ -83,8 +83,17 @@
     self.buildPreviousClass = ko.pureComputed(function () {
         var className = 'previous';
 
-        if (self.queryOptions.currentPage() == 1) {
-            className += 'disabled';
+        if (self.queryOptions.currentPage() === 1) {
+            className += ' disabled';
+        }
+        return className;
+    });
+
+    self.buildNextClass = ko.pureComputed(function () {
+        var className = 'next';
+
+        if (self.queryOptions.currentPage() === self.queryOptions.totalPages) {
+            className += ' disabled';
         }
         return className;
     });

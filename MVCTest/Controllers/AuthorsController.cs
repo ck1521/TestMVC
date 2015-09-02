@@ -134,6 +134,29 @@ namespace MVCTest.Controllers
             return RedirectToAction("Index");
         }
 
+        //  GET: /Authors/IndexAjax
+        public ActionResult IndexAjax([Form] QueryOptions qo)
+        {
+            var start = (qo.CurrentPage - 1) * qo.PageSize;
+            var authors = db.Authors.
+                OrderBy(qo.Sort).
+                Skip(start).
+                Take(qo.PageSize);
+
+            qo.TotalPages = (int)Math.Ceiling((double)db.Authors.Count() / qo.PageSize);
+
+            ViewBag.QueryOptions = qo;
+
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+
+            return View(new ResultList<AuthorViewModel>
+            {
+                QueryOptions = qo,
+                Results = AutoMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(authors.ToList())
+            });
+
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

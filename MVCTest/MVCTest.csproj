@@ -228,7 +228,6 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\Site.less" />
     <None Include="Scripts\Lib\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\ViewModel\AuthorIndexKoModel.js" />
     <Content Include="Scripts\ViewModel\AuthorIndexViewModel.js" />
     <Content Include="Scripts\ViewModel\AuthorKoModel.js" />
     <Content Include="Scripts\ViewModel\AuthorViewModel.js" />

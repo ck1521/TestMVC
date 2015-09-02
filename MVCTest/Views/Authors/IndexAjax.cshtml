@@ -1,4 +1,5 @@
 ﻿@using MVCTest.ViewModels
+@using MVCTest.Extensions
 @model ResultList<AuthorViewModel>
 
 @{
@@ -7,7 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="body-content col-md-8 col-md-offset-2">
+<div class="col-md-8 col-md-offset-2">
 
     <h2>Authors</h2>
     <p>
@@ -20,7 +21,7 @@
                 <th>@Html.BuildKoSortLink("Publisher", "Index", "publiser")</th>
                 <th>Actions</th>
             </tr>
-            <tbody data-bind="foreach:pagingEntities">
+            <tbody data-bind="foreach:pagingService.entities">
                 <tr>
                     <td data-bind="text:name"></td>
                     <td data-bind="text:publisher"></td>
@@ -29,8 +30,6 @@
                     class="btn btn-info">Details</a>
                         <a data-bind="attr: {href: '@Url.Action("Edit")/' + id}"
                     class="btn btn-info">Edit</a>
-                        @*<a data-bind="click:$parent.AjaxDelete.bind($root,$data.id)"
-                        class="btn btn-info">Delete</a>*@
                         <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("Delete")/' + id}"
                         class="btn btn-info">Delete</a>
                     </td>
@@ -38,8 +37,7 @@
             </tbody>
         </table>
 
-        @Html.BuildKoPreNextLinks("Index")
-        @*<form hidden="hidden">@Html.AntiForgeryToken()</form>*@
+        @Html.BuildKoPreNextLinks("IndexAjax")
     </div>
     <div style="display:none" data-bind="visible: pagingService.entities().length == 0"
         class="alert alert-warning alert-dismissable" role="alert">

@@ -2,6 +2,11 @@
     var self = this;
     self.authors = authors;
 
+    if (typeof PagingService === 'function')
+    {
+        self.pagingService = new PagingService(authors);
+    }
+
     self.showDeleteModal = function (data, event) {
         self.sending = ko.observable(false);
         $.get($(event.target).attr('href'), function (d) {

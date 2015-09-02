@@ -130,7 +130,7 @@ namespace MVCTest.Extensions
         }
 
 
-        public static MvcHtmlString BuildSoPreNextLinks(this HtmlHelper helper, string actionName)
+        public static MvcHtmlString BuildKoPreNextLinks(this HtmlHelper helper, string actionName)
         {
             var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
 
@@ -145,7 +145,7 @@ namespace MVCTest.Extensions
                 "       </li>" +
                 "   </ul>" +
                 "</nav>",
-                urlHelper.Action(actionName)));
+                @urlHelper.Action(actionName)));
         }
     }
 }

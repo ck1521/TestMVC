@@ -50,7 +50,7 @@
     };
 
     self.fetchEntities = function (event) {
-        var url = '/api/' + $(event.target).attr('href');
+        var url = '/api/' + $(event.currentTarget).attr('href');    // jsfiddle.net/misteroneill/kmn4A/3/
         url += "?sortField=" + self.queryOptions.sortField();
         url += "&sortOrder=" + self.queryOptions.sortOrder();
         url += "&currentPage=" + self.queryOptions.currentPage();

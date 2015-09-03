@@ -138,10 +138,10 @@ namespace MVCTest.Extensions
                 "<nav>" +
                 "   <ul class=\"pager\">" +
                 "       <li data-bind=\"css: pagingService.buildPreviousClass()\">" +
-                "           <a href=\"{0}\" data-bind=\"click: pagingService.previousPage\">Previous</a>" +
+                "           <a href=\"{0}\" data-bind=\"click: pagingService.previousPage\"><span aria-hidden=\"true\">&larr;</span> Previous</a>" +
                 "       </li>" +
                 "       <li data-bind=\"css: pagingService.buildNextClass()\">" +
-                "           <a href=\"{0}\" data-bind=\"click: pagingService.nextPage\">Next</a>" +
+                "           <a href=\"{0}\" data-bind=\"click: pagingService.nextPage\">Next <span aria-hidden=\"true\">&rarr;</span></a>" +
                 "       </li>" +
                 "   </ul>" +
                 "</nav>",

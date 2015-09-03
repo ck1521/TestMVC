@@ -229,7 +229,6 @@
     <Content Include="Content\Site.less" />
     <None Include="Scripts\Lib\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\ViewModel\AuthorIndexViewModel.js" />
-    <Content Include="Scripts\ViewModel\AuthorKoModel.js" />
     <Content Include="Scripts\ViewModel\AuthorViewModel.js" />
     <Content Include="Scripts\Lib\bootstrap.js" />
     <Content Include="Scripts\Lib\bootstrap.min.js" />
@@ -266,6 +265,8 @@
     <Content Include="Views\Authors\Form.cshtml" />
     <Content Include="Views\Authors\Delete.cshtml" />
     <Content Include="Views\Authors\IndexAjax.cshtml" />
+    <Content Include="Views\Authors\FormAjax.cshtml" />
+    <Content Include="Views\Authors\DeleteAjax.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

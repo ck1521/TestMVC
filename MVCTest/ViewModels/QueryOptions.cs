@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace MVCTest.ViewModels
         public string SortField { get; set; }
 
         [JsonProperty(PropertyName = "sortOrder")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public SortOrder SortOrder { get; set; }
 
         [JsonProperty(PropertyName = "currentPage")]

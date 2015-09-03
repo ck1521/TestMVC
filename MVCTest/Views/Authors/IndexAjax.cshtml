@@ -12,13 +12,13 @@
 
     <h2>Authors</h2>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "CreateAjax")
     </p>
     <div style="display: none" data-bind="visible: pagingService.entities().length > 0">
         <table class="table table-bordered table-striped">
             <tr>
-                <th>@Html.BuildKoSortLink("Name", "Index", "name")</th>
-                <th>@Html.BuildKoSortLink("Publisher", "Index", "publiser")</th>
+                <th>@Html.BuildKoSortLink("Name", "IndexAjax", "name")</th>
+                <th>@Html.BuildKoSortLink("Publisher", "IndexAjax", "publisher")</th>
                 <th>Actions</th>
             </tr>
             <tbody data-bind="foreach:pagingService.entities">
@@ -26,11 +26,11 @@
                     <td data-bind="text:name"></td>
                     <td data-bind="text:publisher"></td>
                     <td>
-                        <a data-bind="attr: {href: '@Url.Action("Details")/' + id}"
+                        <a data-bind="attr: {href: '@Url.Action("DetailsAjax")/' + id}"
                     class="btn btn-info">Details</a>
-                        <a data-bind="attr: {href: '@Url.Action("Edit")/' + id}"
+                        <a data-bind="attr: {href: '@Url.Action("EditAjax")/' + id}"
                     class="btn btn-info">Edit</a>
-                        <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("Delete")/' + id}"
+                        <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("DeleteAjax")/' + id}"
                         class="btn btn-info">Delete</a>
                     </td>
                 </tr>
@@ -45,7 +45,7 @@
             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
         There are no authors to display.
-            Click @Html.ActionLink("here","Create") to create one.
+            Click @Html.ActionLink("here","CreateAjax") to create one.
     </div>
 </div>
 

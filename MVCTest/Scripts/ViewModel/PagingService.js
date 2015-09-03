@@ -50,7 +50,7 @@
     };
 
     self.fetchEntities = function (event) {
-        var url = '/api/' + $(event.currentTarget).attr('href');    // jsfiddle.net/misteroneill/kmn4A/3/
+        var url = '/api' + $(event.currentTarget).attr('href');    // jsfiddle.net/misteroneill/kmn4A/3/
         url += "?sortField=" + self.queryOptions.sortField();
         url += "&sortOrder=" + self.queryOptions.sortOrder();
         url += "&currentPage=" + self.queryOptions.currentPage();
@@ -69,7 +69,7 @@
     self.buildSortIcon = function (sortField) {
         return ko.pureComputed(function () {
             var sortIcon = 'sort';
-            if (self.queryOptions.sortField === sortField) {
+            if (self.queryOptions.sortField() === sortField) {
                 sortIcon += '-by-alphabet';
             }
             if (self.queryOptions.sortOrder() === "DESC") {
@@ -92,7 +92,7 @@
     self.buildNextClass = ko.pureComputed(function () {
         var className = 'next';
 
-        if (self.queryOptions.currentPage() === self.queryOptions.totalPages) {
+        if (self.queryOptions.currentPage() === self.queryOptions.totalPages()) {
             className += ' disabled';
         }
         return className;

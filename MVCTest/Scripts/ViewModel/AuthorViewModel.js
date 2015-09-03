@@ -4,7 +4,7 @@
     self.saveCompleted = ko.observable(false);
     self.sending = ko.observable(false);
 
-    self.isCreating = (author.id == 0);
+    self.isCreating = (author.id === 0);
 
     self.author =
     {
@@ -30,6 +30,23 @@
         .complete(function () { self.sending(false); });
     };
 
+    self.validateAndSaveAjax = function (form) {
+        if (!$(form).valid()) {
+            return false;
+        }
+        self.sending(true);
+        self.author.__RequestVerificationToken = form[0].value;
+        $.ajax({
+            url: '/api/authors',
+            method: (self.isCreating) ? 'post' : 'put',
+            contentType: 'application/json',
+            data: ko.toJSON(self.author)
+        })
+        .success(self.saveSuccess)
+        .error(self.saveError)
+        .complete(function () { self.sending(false); });
+    };
+
     self.saveSuccess = function () {
         self.saveCompleted(true);
 
@@ -44,7 +61,7 @@
 
         }
         else {
-            setTimeout(function () { location.href = './'; }, 1000);
+            setTimeout(function () { location.href = '../'; }, 1000);
         }
     };
 

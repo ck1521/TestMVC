@@ -36,6 +36,42 @@ namespace MVCTest.Controllers.Api
             };
         }
 
+        //  Get : api/Authors/id
+        [ResponseType(typeof(AuthorViewModel))]
+        public IHttpActionResult Get(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Author author = db.Authors.Find(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+
+            return Ok(AutoMapper.Mapper.Map<Author, AuthorViewModel>(author));
+        }
+
+        public IHttpActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Author author = db.Authors.Find(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+            db.Authors.Remove(author);
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         //  Put: api/Authors/id
         [ResponseType(typeof(void))]
         public IHttpActionResult Put(AuthorViewModel author)

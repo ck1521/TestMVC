@@ -22,6 +22,16 @@
         return true;
     };
 
+    self.deleteAuthorAjax = function (form) {
+        self.sending(true);
+        $.ajax({
+            url: '/api/authors',
+            method: 'delete',
+            contentType: 'application/json',
+
+        })
+    };
+
 }
 //var viewModel = new AuthorIndexViewModel(@Html.HtmlConvertToJson(Model));
 //viewModel.AjaxDelete =  function AjaxDelete(id)

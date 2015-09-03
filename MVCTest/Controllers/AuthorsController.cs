@@ -157,6 +157,61 @@ namespace MVCTest.Controllers
 
         }
 
+
+        //  GET: /Authors/Create
+        public ActionResult CreateAjax()
+        {
+            return View("FormAjax", new AuthorViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAjax(AuthorViewModel author)
+        {
+            if (ModelState.IsValid)
+            {
+                AutoMapper.Mapper.CreateMap<AuthorViewModel, Author>();
+                db.Authors.Add(AutoMapper.Mapper.Map<AuthorViewModel, Author>(author));
+                db.SaveChanges();
+                return RedirectToAction("IndexAjax");
+            }
+
+            return View(author);
+        }
+
+        //  GET: /Authors/Edit/id
+        public ActionResult EditAjax(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Author author = db.Authors.Find(id);
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            AutoMapper.Mapper.CreateMap<Author, AuthorViewModel>();
+            return View("FormAjax", AutoMapper.Mapper.Map<Author, AuthorViewModel>(author));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAjax(AuthorViewModel author)
+        {
+            if (ModelState.IsValid)
+            {
+                AutoMapper.Mapper.CreateMap<AuthorViewModel, Author>();
+                db.Entry(AutoMapper.Mapper.Map<AuthorViewModel, Author>(author)).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexAjax");
+            }
+
+            return View("FormAjax", author);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

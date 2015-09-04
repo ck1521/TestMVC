@@ -67,7 +67,7 @@
 
     self.saveError = function () {
         $('.body-content').prepend(
-             '<div class="alert alert-success"><strong>Error!</strong>Some error happened.</div>'
+             '<div class="alert alert-danger"><strong>Error!</strong>Some error happened.</div>'
             );
     };
 

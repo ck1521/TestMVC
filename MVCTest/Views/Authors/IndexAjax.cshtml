@@ -7,7 +7,6 @@
     var queryOptions = Model.QueryOptions;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="col-md-8 col-md-offset-2">
 
     <h2>Authors</h2>
@@ -30,7 +29,7 @@
                     class="btn btn-info">Details</a>
                         <a data-bind="attr: {href: '@Url.Action("EditAjax")/' + id}"
                     class="btn btn-info">Edit</a>
-                        <a data-bind="click:$parent.showDeleteModal,attr: {href: '@Url.Action("DeleteAjax")/' + id}"
+                        <a data-bind="click:$parent.showDeleteModalAjax,attr: {href: '@Url.HttpRouteUrl("DefaultApi", new { controller = "Authors" })/' + id}"
                         class="btn btn-info">Delete</a>
                     </td>
                 </tr>
@@ -39,13 +38,49 @@
 
         @Html.BuildKoPreNextLinks("IndexAjax")
     </div>
-    <div style="display:none" data-bind="visible: pagingService.entities().length == 0"
+    <div style="display: none" data-bind="visible: pagingService.entities().length == 0"
         class="alert alert-warning alert-dismissable" role="alert">
         <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
         There are no authors to display.
-            Click @Html.ActionLink("here","CreateAjax") to create one.
+            Click @Html.ActionLink("here", "CreateAjax") to create one.
+    </div>
+
+    <div class="modal fade" id="deleteModal" hidden="hidden">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @*<pre data-bind="text:ko.toJSON($data,null,2)"></pre>*@
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Author Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h3>Are you sure you want to delete this author?</h3>
+                    <div>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>Name</dt>
+                            <dd data-bind="text:author.name"></dd>
+                            <dt>Publisher</dt>
+                            <dd data-bind="text:author.publisher"></dd>
+                        </dl>
+                    </div>
+                    <div class="modal-footer">
+                        <form data-bind="submit:deleteAuthorAjax, attr:{action:'@Url.HttpRouteUrl("DefaultApi", new { controller = "Authors" })    '}">
+                            @Html.AntiForgeryToken();
+                            <div class="form-actions no-color text-center" data-bind="visible:!sending()">
+                                <input type="submit" value="Delete" class="btn btn-danger" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

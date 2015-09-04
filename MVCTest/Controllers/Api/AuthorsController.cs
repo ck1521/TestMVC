@@ -68,6 +68,7 @@ namespace MVCTest.Controllers.Api
                 return NotFound();
             }
             db.Authors.Remove(author);
+            db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
